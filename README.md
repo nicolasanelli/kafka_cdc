@@ -69,7 +69,7 @@ insert into ppl ((select max(x.id) + 1 from ppl x), 'another');
 ````
 
 
-**Important:** Debezium connector executes a "SHOW MASTER STATUS" command at start of snapshot, and this command has been removed in mysql 8.4. We need an update version to the connector which uses the equivalent command "SHOW BINARY LOG STATUS";
+**Important:** Debezium connector executes a "SHOW MASTER STATUS" command at start of snapshot, and this command has been removed in mysql 8.4. We need an update version to the connector which uses the equivalent command "SHOW BINARY LOG STATUS"; related issue at https://issues.redhat.com/browse/DBZ-7838
 
 ## Refs
 
