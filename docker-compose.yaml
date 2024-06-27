@@ -17,6 +17,7 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: 'PLAINTEXT'
       KAFKA_CONTROLLER_LISTENER_NAMES: 'CONTROLLER'
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
       JMX_PORT: 9997
 
   connect:
@@ -35,6 +36,9 @@ services:
       CONNECT_STATUS_STORAGE_TOPIC: my-connect-statuses
       CONNECT_CONFIG_STORAGE_TOPIC: my-connect-configs
       CONNECT_OFFSET_STORAGE_TOPIC: my-connect-offsets
+      CONNECT_STATUS_STORAGE_REPLICATION_FACTOR: 1
+      CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR: 1
+      CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR: 1
       CONNECT_BOOTSTRAP_SERVERS: "kafka:29092"
       CONNECT_REST_HOST_NAME: connect
       CONNECT_REST_ADVERTISED_HOST_NAME: connect
@@ -62,29 +66,30 @@ services:
       KAFKA_CLUSTERS_0_KAFKACONNECT_0_NAME: Debezium
       KAFKA_CLUSTERS_0_KAFKACONNECT_0_ADDRESS: http://connect:8083
 
-  lenses:
-    image: lensesio/lenses
-    hostname: lenses
-    container_name: lenses
-    environment:
-      LENSES_PORT: 9991
-      LENSES_SECURITY_USER: admin
-      LENSES_SECURITY_PASSWORD: admin
-    ports:
-      - 9991:9991
-      - 9102:9102
-  
-  # mysql:
-  #   image: "mysql:8.4.0"
-  #   hostname: mysql
-  #   container_name: mysql
-  #   command: ["mysqld", "--mysql-native-password=ON"]
-  #   ports:
-  #     - "3306:3306"
+  # lenses:
+  #   image: lensesio/lenses
+  #   hostname: lenses
+  #   container_name: lenses
   #   environment:
-  #     MYSQL_USER: "debezium"
-  #     MYSQL_PASSWORD: "password"
-  #     MYSQL_DATABASE: "exampledb"
-  #     MYSQL_ROOT_HOST: "%"
-  #     MYSQL_ALLOW_EMPTY_PASSWORD: 1
-      
+  #     LENSES_PORT: 9991
+  #     LENSES_SECURITY_USER: admin
+  #     LENSES_SECURITY_PASSWORD: admin
+  #   ports:
+  #     - 9991:9991
+  #     - 9102:9102
+  
+  mysql:
+    # image: "mysql:8.4"
+    image: "mysql:8.0" # probably could use 8.3, bc it still have the SHOW MASTER STATUS command
+    hostname: mysql
+    container_name: mysql
+    # command: ["mysqld", "--mysql-native-password=ON"] # used in mysql 8.4
+    command: mysqld --default-authentication-plugin=mysql_native_password
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_USER: "debezium"
+      MYSQL_PASSWORD: "password"
+      MYSQL_DATABASE: "exampledb"
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
