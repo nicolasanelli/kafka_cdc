@@ -1,32 +1,4 @@
 services:
-  # zookeeper:
-  #   image: confluentinc/cp-zookeeper:7.6.1
-  #   hostname: zookeeper
-  #   container_name: zookeeper
-  #   environment:
-  #     ZOOKEEPER_CLIENT_PORT: 2181
-  #     ZOOKEEPER_TICK_TIME: 2000
-
-  # kafka:
-  #   image: "confluentinc/cp-kafka:7.6.1"
-  #   hostname: kafka
-  #   container_name: kafka
-  #   ports:
-  #     - "9092:9092"
-  #   expose:
-  #     - "29092"
-  #   environment:
-  #     KAFKA_NODE_ID: 1
-  #     KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: 'PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT'
-  #     KAFKA_ADVERTISED_LISTENERS: 'PLAINTEXT_HOST://localhost:9092,PLAINTEXT://kafka:29092'
-  #     KAFKA_LISTENERS: 'PLAINTEXT_HOST://:9092,PLAINTEXT://:29092'
-  #     KAFKA_INTER_BROKER_LISTENER_NAME: 'PLAINTEXT'
-  #     KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
-  #     KAFKA_CONFLUENT_TOPIC_REPLICATION_FACTOR: 1
-  #     KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-  #     KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
-  #     JMX_PORT: 9997
-
   kafka:
     image: "apache/kafka:3.7.0"
     hostname: kafka
@@ -48,7 +20,6 @@ services:
       JMX_PORT: 9997
 
   connect:
-    # image: "confluentinc/cp-kafka-connect:7.6.1"
     build:
       context: connect
     hostname: connect
@@ -75,46 +46,6 @@ services:
       LOG_LEVEL: INFO
       JMX_PORT: 9997
 
-  # connect:
-  #   image: debezium/connect:1.9
-  #   hostname: connect
-  #   container_name: connect
-  #   ports:
-  #     - "8083:8083"
-  #   expose:
-  #     - "8083"
-  #   depends_on:
-  #     - kafka
-  #   environment:
-  #     GROUP_ID: 123
-  #     STATUS_STORAGE_TOPIC: my-connect-statuses
-  #     CONFIG_STORAGE_TOPIC: my-connect-configs
-  #     OFFSET_STORAGE_TOPIC: my-connect-offsets
-  #     BOOTSTRAP_SERVERS: "kafka:29092"
-  #     REST_HOST_NAME: connect
-  #     REST_ADVERTISED_HOST_NAME: connect
-  #     KEY_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
-  #     VALUE_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
-  #     INTERNAL_KEY_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
-  #     INTERNAL_VALUE_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
-  #     PLUGIN_PATH: /usr/share/java
-  #     LOG_LEVEL: INFO
-  #     JMX_PORT: 9997
-  
-  mysql:
-    image: "mysql:8.4.0"
-    hostname: mysql
-    container_name: mysql
-    command: ["mysqld", "--mysql-native-password=ON"]
-    ports:
-      - "3306:3306"
-    environment:
-      MYSQL_USER: "debezium"
-      MYSQL_PASSWORD: "password"
-      MYSQL_DATABASE: "exampledb"
-      MYSQL_ROOT_HOST: "%"
-      MYSQL_ALLOW_EMPTY_PASSWORD: 1
-
   kafka-ui:
     image: "provectuslabs/kafka-ui"
     ports:
@@ -138,4 +69,18 @@ services:
   #   ports:
   #     - 9991:9991
   #     - 9102:9102
+  
+  # mysql:
+  #   image: "mysql:8.4.0"
+  #   hostname: mysql
+  #   container_name: mysql
+  #   command: ["mysqld", "--mysql-native-password=ON"]
+  #   ports:
+  #     - "3306:3306"
+  #   environment:
+  #     MYSQL_USER: "debezium"
+  #     MYSQL_PASSWORD: "password"
+  #     MYSQL_DATABASE: "exampledb"
+  #     MYSQL_ROOT_HOST: "%"
+  #     MYSQL_ALLOW_EMPTY_PASSWORD: 1
       
