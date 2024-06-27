@@ -48,6 +48,8 @@ services:
 
   kafka-ui:
     image: "provectuslabs/kafka-ui"
+    hostname: kafka-ui
+    container_name: kafka-ui
     ports:
       - "8080:8080"
     depends_on:
@@ -60,15 +62,17 @@ services:
       KAFKA_CLUSTERS_0_KAFKACONNECT_0_NAME: Debezium
       KAFKA_CLUSTERS_0_KAFKACONNECT_0_ADDRESS: http://connect:8083
 
-  # lenses:
-  #   image: lensesio/lenses
-  #   environment:
-  #     LENSES_PORT: 9991
-  #     LENSES_SECURITY_USER: admin
-  #     LENSES_SECURITY_PASSWORD: admin
-  #   ports:
-  #     - 9991:9991
-  #     - 9102:9102
+  lenses:
+    image: lensesio/lenses
+    hostname: lenses
+    container_name: lenses
+    environment:
+      LENSES_PORT: 9991
+      LENSES_SECURITY_USER: admin
+      LENSES_SECURITY_PASSWORD: admin
+    ports:
+      - 9991:9991
+      - 9102:9102
   
   # mysql:
   #   image: "mysql:8.4.0"
