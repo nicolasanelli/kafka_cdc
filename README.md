@@ -76,6 +76,7 @@ insert into ppl ((select max(x.id) + 1 from ppl x), 'another');
 - Kafka: https://kafka.apache.org/documentation.html
 - Kafka UI: https://docs.kafka-ui.provectus.io/
 - Connect: https://docs.confluent.io/platform/current/installation/docker/development.html#extending-images
+- Connect API REST: https://docs.confluent.io/platform/current/connect/references/restapi.html#connectors
 - Debezium: https://debezium.io/documentation/reference/2.6/connectors/mysql.html#setting-up-mysql
 - Debezium Mysql Connector: https://www.confluent.io/hub/debezium/debezium-connector-mysql
 - Mysql 8.4 Changelog: https://dev.mysql.com/doc/relnotes/mysql/8.4/en/news-8-4-0.html
